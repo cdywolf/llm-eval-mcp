@@ -1,0 +1,24 @@
+# Blueprint de déploiement Render (https://render.com).
+# Décrit un service web (conteneur Docker) + une base PostgreSQL managée gratuite.
+services:
+  - type: web
+    name: llm-eval-mcp
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      # Clé Groq : saisie manuellement dans le tableau de bord (jamais versionnée).
+      - key: GROQ_API_KEY
+        sync: false
+      # Clé d'API protégeant /judge : générée automatiquement par Render.
+      - key: API_KEY
+        generateValue: true
+      # URL de la base : injectée automatiquement depuis la base ci-dessous.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: llm-eval-db
+          property: connectionString
+
+databases:
+  - name: llm-eval-db
+    plan: free

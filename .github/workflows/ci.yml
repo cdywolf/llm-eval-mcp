@@ -1,0 +1,32 @@
+name: CI
+
+# Déclencheurs : à chaque push et à chaque pull request.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # machine fraîche fournie par GitHub
+
+    steps:
+      # 1. Récupérer le code du dépôt sur le runner.
+      - uses: actions/checkout@v4
+
+      # 2. Installer Python 3.12.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3. Installer le projet + les outils de dev (pytest, ruff).
+      - name: Installer les dépendances
+        run: pip install -e ".[dev]"
+
+      # 4. Vérifier la qualité du code (le linter).
+      - name: Lint (ruff)
+        run: ruff check .
+
+      # 5. Lancer les tests. Aucun secret requis : les tests utilisent les
+      #    doublures (FakeJudge, InMemoryEvalRunRepository).
+      - name: Tests (pytest)
+        run: pytest

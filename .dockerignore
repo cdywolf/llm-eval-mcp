@@ -1,0 +1,25 @@
+# Environnements virtuels (inutiles et non portables dans l'image)
+.venv/
+venv/
+
+# Caches Python / outils
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Historique Git
+.git/
+.gitignore
+
+# Secrets et données locales — NE JAMAIS embarquer dans l'image
+.env
+*.env
+*.db
+
+# Fichiers de dev qui n'ont rien à faire dans l'image de production
+.github/
+tests/
