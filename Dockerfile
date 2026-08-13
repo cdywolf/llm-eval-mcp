@@ -18,7 +18,7 @@ WORKDIR /app
 # dépendances d'exécution dans le venv.
 COPY pyproject.toml README.md ./
 COPY src ./src
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir ".[postgres]" .
 
 # ============================================================================
 # Étape 2 — image finale (la livraison) : base neuve et propre. On ne récupère
